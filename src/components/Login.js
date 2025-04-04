@@ -1,4 +1,3 @@
-// src/components/Login.js
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const {setRole, setType} = useContext(AppContext);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const goToSignup = () => {
     navigate('/signup');
@@ -19,40 +19,43 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setErrorMessage('');
+
+    if (!username || !password) {
+      setErrorMessage('Please fill in all fields.');
+      return;
+    }
+
     try {
       const response = await axios.post(`${SERVER_URL}/login`, {
         username,
         password,
       });
-       // שמירת הטוקן בלוקאל סטורג'
+
        localStorage.setItem('token', response.data.token);
        localStorage.setItem('type', response.data.user.type); 
+       setRole(response.data.user.role);
+       setType(response.data.user.type);
 
-      setRole(response.data.user.role);
-      setType(response.data.user.type);
-
-       // הפניה למסך המתאים לפי התפקיד
        if (response.data.user.type === 'admin') {
          navigate('/Main-Admin');
        } else {
          navigate('/Main-Player');
        }
  
-      alert('Login successful!');
-      console.log('JWT Token:', response.data.token); // לשמור את הטוקן ולהשתמש בו בהמשך
+      setErrorMessage('Login successful!');
     } catch (err) {
       console.error('Login failed:', err);
-      alert('Failed to login');
+      setErrorMessage('Failed to login');
     }
   };
 
   return (
     <div>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+      {errorMessage && (<p className="error-message">{errorMessage}</p>)}
+      <form onSubmit={handleSubmit} class="form-container">
+        <div className="form-row">
         <label>Username: </label>
           <input
             placeholder="Username"
@@ -61,7 +64,7 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div>
+        <div className="form-row">
           <label>Password: </label>
           <input
           placeholder="Password"

@@ -8,8 +8,8 @@ const AppProvider = ({ children }) => {
     const [type, setType] = useState("user"); 
     const [selectedSong, setSelectedSong] = useState(null); 
     const [selectedSongName, setSelectedSongName] = useState('')
-        useEffect(() => {
-            console.log({selectedSongName, role, type})
+
+    useEffect(() => {
         }, [selectedSongName, role, type])
     return (
         <AppContext.Provider value={{ role, setRole, type, setType, user, setUser, selectedSong, setSelectedSong, selectedSongName, setSelectedSongName }}>

@@ -3,13 +3,10 @@ import { io } from 'socket.io-client';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
-// חיבור לשרת
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
-
 const socket = io(`${SERVER_URL}`); 
 
 const Results = () => {
-    console.log("in Results")
     const [songs, setSongs] = useState([]);
     const [selectedSong, setSelectedSong] = useState(null);
     const [isSongSelected, setIsSongSelected] = useState(false);
@@ -28,14 +25,12 @@ const Results = () => {
         const songTitle = event.target.value;
         const song = songs.find((s) => s.title === songTitle);
         setSelectedSong(song);
-        console.log("selecting", song.title)
         setSelectedSongName(song.title)
         setIsSongSelected(true); 
     };
 
     const handleSongSelectClick = () => {
         if (socket && selectedSong) {
-            console.log("Song selected:", selectedSong);
             socket.emit('songSelected', { sessionId: '123', song: selectedSong });
             socket.emit('changeStatus', 'Live');
             navigate( `/live?song=${selectedSong.title}`); 

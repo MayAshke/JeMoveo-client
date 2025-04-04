@@ -11,9 +11,16 @@ const SignupAdmin = () => {
   const [role, setRole] = useState('player'); 
   const [message, setMessage] = useState('');
   const navigate = useNavigate(); 
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!username || !password || !instrument || !role) {
+        setErrorMessage('Please fill in all fields.');
+        return;
+      }  
+
     try {
       const response = await axios.post(`${SERVER_URL}/signup`, {
         username,
@@ -23,18 +30,18 @@ const SignupAdmin = () => {
         type: 'admin',
       });
       setMessage('User created successfully! Redirecting to login...');
+      setErrorMessage(null);
+
       setTimeout(() => {
         navigate('/login'); 
-      }, 2000); // 2000 מילישניות (2 שניות)
+      }, 2000); 
     } catch (err) {
       console.error('Error creating user:', err);
   
-      // בדיקה אם השגיאה היא של שם משתמש כפול
       if (err.response && err.response.data.error === 'Username already exists') {
-        alert('This username is already taken. Please choose another one.');
+        setErrorMessage('This username is already taken. Please choose another one.');
       } else {
-        // אם זו לא שגיאה של שם משתמש כפול, הצג את השגיאה הכללית
-        alert('Failed to create user: ' + (err.response ? err.response.data.error : 'Unknown error'));
+        setErrorMessage('Failed to create user: ' + (err.response ? err.response.data.error : 'Unknown error'));
       }
     }
   };
@@ -42,8 +49,9 @@ const SignupAdmin = () => {
   return ( 
     <div>
       <h2>Sign up as an admin</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      {errorMessage && (<p className="error-message">{errorMessage}</p>)}
+      <form onSubmit={handleSubmit} class="form-container">
+        <div className="form-row">
           <label>Username: </label>
           <input
             placeholder="Username"
@@ -52,7 +60,7 @@ const SignupAdmin = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div>
+        <div className="form-row">
           <label>Password: </label>
           <input
             placeholder="Password"
@@ -61,7 +69,7 @@ const SignupAdmin = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div>
+        <div className="form-row">
           <label>Instrument: </label>
           <input
             placeholder="Instrument"
@@ -70,7 +78,7 @@ const SignupAdmin = () => {
             onChange={(e) => setInstrument(e.target.value)}
           />
         </div>
-        <div>
+        <div className="form-row">
           <label>Role: </label>
           <select placeholder="Role" value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="player">Player</option>
