@@ -2,17 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const SignupAdmin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [instrument, setInstrument] = useState('');
   const [role, setRole] = useState('player'); 
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
-
-  const goToSignupAdmin = () => {
-    navigate('/signup-admin');
-  };
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +18,7 @@ const Signup = () => {
         password,
         instrument,
         role,
+        type: 'admin',
       });
       setMessage('User created successfully! Redirecting to login...');
       setTimeout(() => {
@@ -42,8 +39,7 @@ const Signup = () => {
 
   return ( 
     <div>
-      <h2>Sign up</h2>
-      <button onClick={goToSignupAdmin}>Sign up as an Admin</button>
+      <h2>Sign up as an admin</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username: </label>
@@ -79,11 +75,11 @@ const Signup = () => {
             <option value="singer">Singer</option>
           </select>
         </div>
-        <button type="submit" >Sign Up</button>
+        <button type="submit" >Sign Up as an admin</button>
       </form>
       {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default Signup;
+export default SignupAdmin;

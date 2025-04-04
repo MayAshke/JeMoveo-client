@@ -1,13 +1,19 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();  // מאפשר לנווט לדפים אחרים
+  const navigate = useNavigate();
+  const {setRole, setType} = useContext(AppContext);
+
+  const goToSignup = () => {
+    navigate('/signup');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +25,11 @@ const Login = () => {
       });
        // שמירת הטוקן בלוקאל סטורג'
        localStorage.setItem('token', response.data.token);
-       localStorage.setItem('type', response.data.user.type); // שמירת התפקיד
- 
+       localStorage.setItem('type', response.data.user.type); 
+
+      setRole(response.data.user.role);
+      setType(response.data.user.type);
+
        // הפניה למסך המתאים לפי התפקיד
        if (response.data.user.type === 'admin') {
          navigate('/Main-Admin');
@@ -59,7 +68,10 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <div style={{ display: 'flex', flexDirection: 'column' , gap: '15px' }}>
         <button type="submit">Login</button>
+        <button onClick={goToSignup}>Don't have an account? Sign up</button>
+        </div>
       </form>
     </div>
   );
