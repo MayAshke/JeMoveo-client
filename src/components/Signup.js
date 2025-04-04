@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-//const SERVER_URL = process.env.REACT_SERVER_URL;
+const SERVER_URL_V2 = process.env.REACT_SERVER_URL;
 const SERVER_URL = "https://jamoveo-server-0597.onrender.com";
 
 const Signup = () => {
@@ -15,6 +15,8 @@ const Signup = () => {
   const goToSignupAdmin = () => {
     navigate('/signup-admin');
   };
+
+  console.log("SERVER_URL_V2:",SERVER_URL_V2);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
