@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
-const SERVER_URL = process.env.REACT_SERVER_URL;
+//const SERVER_URL = process.env.REACT_SERVER_URL;
+const SERVER_URL = "https://jamoveo-server-0597.onrender.com";
 
 const Login = () => {
   const [username, setUsername] = useState('');

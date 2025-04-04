@@ -4,7 +4,9 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import AutoScrollLyrics from './AutoScrollLyrics';
 
-const SERVER_URL = process.env.REACT_SERVER_URL;
+//const SERVER_URL = process.env.REACT_SERVER_URL;
+const SERVER_URL = "https://jamoveo-server-0597.onrender.com";
+
 const socket = io(SERVER_URL);
 
 const LiveScreen = ( ) => {
