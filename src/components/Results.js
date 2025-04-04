@@ -4,7 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
 // חיבור לשרת
-const socket = io('http://localhost:5000'); 
+const SERVER_URL = process.env.SERVER_URL;
+const socket = io(`${SERVER_URL}`); 
 
 const Results = () => {
     console.log("in Results")
@@ -16,7 +17,7 @@ const Results = () => {
     const searchValue = searchParams.get('searchValue');
     const navigate = useNavigate();  
     useEffect(() => {
-        fetch('http://localhost:5000/songs')
+        fetch(`${SERVER_URL}/songs`)
         .then((res) => res.json())
         .then((data) => setSongs(data))
         .catch((err) => console.error('Error fetching songs:', err));

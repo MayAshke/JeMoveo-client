@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5000'); 
+const SERVER_URL = process.env.SERVER_URL;
+
+const socket = io(`${SERVER_URL}`); 
 const MainPlayer = () => {
   const [status, setStatus] = useState('Waiting for next song'); 
    const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import AutoScrollLyrics from './AutoScrollLyrics';
 
-const socket = io('http://localhost:5000');
+const SERVER_URL = process.env.SERVER_URL;
 
 const LiveScreen = ( ) => {
 
@@ -21,7 +21,7 @@ const LiveScreen = ( ) => {
 
     useEffect(() => {
         const fetchSong = () => {
-            fetch(`http://localhost:5000/song/${songName}`)
+            fetch(`${SERVER_URL}/song/${songName}`)
             .then((res) => res.json())
             .then((data) => setSong(data))
             .catch((err) => console.error('Error fetching songs:', err));
