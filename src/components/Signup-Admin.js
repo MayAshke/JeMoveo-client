@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-//const SERVER_URL = process.env.REACT_SERVER_URL;
-const SERVER_URL = "https://jamoveo-server-0597.onrender.com";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const SignupAdmin = () => {
   const [username, setUsername] = useState('');
