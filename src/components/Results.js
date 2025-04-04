@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 
 // חיבור לשרת
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = process.env.REACT_SERVER_URL;
 const socket = io(`${SERVER_URL}`); 
 
 const Results = () => {
