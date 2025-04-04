@@ -5,6 +5,7 @@ import { AppContext } from '../context/AppContext';
 import AutoScrollLyrics from './AutoScrollLyrics';
 
 const SERVER_URL = process.env.SERVER_URL;
+const socket = io(SERVER_URL);
 
 const LiveScreen = ( ) => {
 
